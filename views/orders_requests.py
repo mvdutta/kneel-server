@@ -6,6 +6,14 @@ ORDERS = [
     "styleId": 3,
     "itemId": 1,
     "timestamp": 1614659931693
+},
+{
+    "id": 2,
+    "metalId": 1,
+    "sizeId": 1,
+    "styleId": 2,
+    "itemId": 2,
+    "timestamp": 1614659931694
 }
 ]
 
@@ -41,3 +49,20 @@ def create_order(order):
 
     # Return the dictionary with `id` property added
     return order
+
+
+def delete_order(id):
+    """remove order dictionary from the list"""
+    # Initial -1 value for order index, in case one isn't found
+    order_index = -1
+
+    # Iterate the ORDER list, but use enumerate() so that you
+    # can access the index value of each item
+    for index, order in enumerate(ORDERS):
+        if order["id"] == id:
+            # Found the order. Store the current index.
+            order_index = index
+
+    # If the order was found, use pop(int) to remove it from list
+    if order_index >= 0:
+        ORDERS.pop(order_index)

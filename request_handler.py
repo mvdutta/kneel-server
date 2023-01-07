@@ -1,6 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from views import get_all_metals, get_all_orders, get_all_sizes, get_all_styles, get_single_metal, get_single_order, get_single_size, get_single_style, create_order
+from views import get_all_metals, get_all_orders, get_all_sizes, get_all_styles, get_single_metal, get_single_order, get_single_size, get_single_style, create_order, delete_order
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -83,6 +83,21 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # Encode the new order and send in response
             self.wfile.write(json.dumps(new_order).encode()) 
+
+    def do_DELETE(self):
+        """method to process the DELETE request. Uses response code 204: request processed, no information to send back/don't need to refresh"""
+        self._set_headers(204)
+
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+        # Delete a single order from the list
+        if resource == "orders":
+            delete_order(id)
+
+        # Encode the new order and send in response
+            self.wfile.write("".encode())
+
 
     def do_PUT(self):
         """Handles PUT requests to the server """
