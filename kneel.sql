@@ -43,3 +43,16 @@ INSERT INTO `Sizes` VALUES (null, 2, 3638);
 INSERT INTO `Styles` VALUES (null, "Classic", 500);
 INSERT INTO `Styles` VALUES (null, "Modern", 710);
 INSERT INTO `Styles` VALUES (null, "Vintage", 960);
+
+INSERT INTO `Orders` VALUES (null, 3, 2, 1, "2022-12-05");
+INSERT INTO `Orders` VALUES (null, 2, 1, 2, "2022-11-21");
+INSERT INTO `Orders` VALUES (null, 4, 4, 3, "2022-11-22");
+
+
+SELECT
+    o.id,
+    o.metal_id,
+    o.size_id,
+    o.style_id,
+    o.timestamp
+FROM Orders o
