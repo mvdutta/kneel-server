@@ -4,7 +4,6 @@ ORDERS = [
     "metalId": 3,
     "sizeId": 2,
     "styleId": 3,
-    "itemId": 1,
     "timestamp": 1614659931693
 },
 {
@@ -12,7 +11,6 @@ ORDERS = [
     "metalId": 1,
     "sizeId": 1,
     "styleId": 2,
-    "itemId": 2,
     "timestamp": 1614659931694
 }
 ]
