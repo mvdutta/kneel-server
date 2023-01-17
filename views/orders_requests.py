@@ -118,11 +118,28 @@ def delete_order(id):
         """, (id, ))
 
 def update_order(id, new_order):
-        # Iterate the ORDERS list, but use enumerate() so that
-        # you can access the index value of each item.
     """iterates the list of orders until it finds the right one, and then replaces it with what the client sent as the replacement."""
-    for index, order in enumerate(ORDERS):
-        if order["id"] == id:
-            # Found the order. Update the value.
-            ORDERS[index] = new_order
-            break           
+    with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        UPDATE Orders
+            SET
+                metal_id = ?,
+                size_id = ?,
+                style_id = ?,
+                timestamp = ?
+        WHERE id = ?
+        """, (new_order['metal_id'], new_order['size_id'],
+              new_order['style_id'], new_order['timestamp'], id, ))
+
+        # Were any rows affected?
+        # Did the client send an `id` that exists?
+        rows_affected = db_cursor.rowcount
+
+    if rows_affected == 0:
+        # Forces 404 response by main module
+        return False
+    else:
+        # Forces 204 response by main module
+        return True

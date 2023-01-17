@@ -101,20 +101,23 @@ class HandleRequests(BaseHTTPRequestHandler):
 
     def do_PUT(self):
         """Handles PUT requests to the server """
-        self._set_headers(204)
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
         post_body = json.loads(post_body)
 
         # Parse the URL
         (resource, id) = self.parse_url(self.path)
+        success = False
 
-     # Delete a single order from the list
         if resource == "orders":
-            update_order(id, post_body)
-
+            success = update_order(id, post_body)
+        # rest of the elif's
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
     # Encode the new order and send in response
-            self.wfile.write("".encode()) 
+        self.wfile.write("".encode()) 
             
     def _set_headers(self, status):
         """Sets the status code, Content-Type and Access-Control-Allow-Origin
