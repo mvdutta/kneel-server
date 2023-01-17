@@ -60,15 +60,26 @@ def get_all_orders():
     return orders
 
 def get_single_order(id):
-    """Variable to hold the found order, if it exists"""
-    requested_order = None
-    for order in ORDERS:
-        # Dictionaries in Python use [] notation to find a key
-        # instead of the dot notation that JavaScript used.
-        if order["id"] == id:
-            requested_order = order
+    with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
 
-    return requested_order
+        # Use a ? parameter to inject a variable's value
+        # into the SQL statement.
+        db_cursor.execute("""
+        SELECT *
+        FROM Orders o
+        WHERE o.id = ?
+        """, (id, ))
+
+        # Load the single result into memory
+        data = db_cursor.fetchone()
+
+        # Create an animal instance from the current row
+        order = Order(data['id'], data['metal_id'], data['size_id'],
+                      data['style_id'], data['timestamp'])
+
+        return order.__dict__
 
 
 def create_order(order):
