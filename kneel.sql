@@ -56,3 +56,23 @@ SELECT
     o.style_id,
     o.timestamp
 FROM Orders o
+
+SELECT
+    o.id,
+    o.metal_id,
+    o.size_id,
+    o.style_id,
+    o.timestamp,
+    st.style,
+    st.price,
+    m.metal,
+    m.price,
+    si.carats,
+    si.price
+FROM Orders o
+JOIN Styles st
+    ON o.style_id = st.id
+JOIN Metals m
+    ON o.metal_id = m.id
+JOIN Sizes si
+    ON o.size_id = si.id
